@@ -1,8 +1,8 @@
 # Variables
-CLUSTER_NAME=team-eks-cluster
+CLUSTER_NAME=test-eks-cluster
 REGION=us-east-2
-NODE_NAME=Linux-nodes
-KEY_NAME=docker-nexus
+NODE_NAME=workernode
+KEY_NAME=Jenkins_ubuntu.pem
 
 # Set AWS credentials before script execution
 
