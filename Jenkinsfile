@@ -10,7 +10,7 @@ pipeline {
         ARTVERSION = "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}"
 	NEXUS_ARTIFACT = "${env.NEXUS_PROTOCOL}://${env.NEXUS_URL}/repository/${env.NEXUS_REPOSITORY}/com/team/project/tmart/${env.ARTVERSION}/tmart-${env.ARTVERSION}.war"
 	scannerHome = tool 'sonar'
-	ecr_repo = '674583976178.dkr.ecr.us-east-2.amazonaws.com/teamimagerepo'
+	ecr_repo = '339712852090.dkr.ecr.us-east-2.amazonaws.com/ecrrepo'
         ecrCreds = 'awscreds'
 	image = ''
     }
