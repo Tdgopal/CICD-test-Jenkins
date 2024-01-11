@@ -117,11 +117,7 @@ pipeline {
 		 
             steps {
 		script{
-		 sh 'eksctl get cluster --region us-east-2'
-		 def exit_code = sh script: 'echo $?'
-		 if (exit_code != 0){
-			sh './k8s/cluster.sh'
-		 }
+		 
                  sh '''
 		 kubectl apply -f ./k8s/eksdeploy.yml
 		 kubectl get deployments  
