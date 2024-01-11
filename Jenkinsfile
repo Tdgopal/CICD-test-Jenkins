@@ -95,7 +95,7 @@ pipeline {
                         error "*** File: ${artifactPath}, could not be found";
                     }}}}
 	    
-	/*stage('Docker Image Build') {
+	stage('Docker Image Build') {
           steps {
              script {
                 image = docker.build(ecr_repo + ":$BUILD_ID", "./") 
@@ -110,24 +110,10 @@ pipeline {
 	      }}
        post {
         always {
-            sh 'docker image prune -a -f' } 
+            sh 'docker builder prune --all -f' } 
        }}	    
 	    
-	stage("Fetch from Nexus & Deploy using Ansible"){
-		agent { label 'agent1' }
-                 when {
-                   expression {
-                       return params.Deploy   
-                }}
-		steps{
-		     script{
-			dir('ansible'){
-			echo "${params.Deploy}"
-			sh 'ansible-playbook deployment.yml -e NEXUS_ARTIFACT=${NEXUS_ARTIFACT} > live_log || exit 1'
-		        sh 'tail -2 live_log'	
-			}	
-            }}}
-        stage('Deploy to EKS'){
+        /*stage('Deploy to EKS'){
 		 agent { label 'agent1' }
                  when {
                    expression {
@@ -148,7 +134,7 @@ pipeline {
                  '''   }}
          post {
           always { cleanWs() }
-        }
+        } 
 	} */
 }
 	post {
