@@ -1,24 +1,15 @@
 pipeline {
-    options {
-      buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '3'))
-      //skipDefaultCheckout() 
-      disableConcurrentBuilds()
-  }
-    agent any
-    parameters {
-	    booleanParam(name: "Deploy", defaultValue: false, description: "Deploy the Build")
-	    booleanParam(name: "SonarQube", defaultValue: false, description: "ByPass SonarQube Scan")
-    }	
+    agent any	
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"	    
-        NEXUS_URL = "172.31.18.80:8081"
-        NEXUS_REPOSITORY = "team-artifacts"
-	NEXUS_REPO_ID    = "team-artifacts"
-        NEXUS_CREDENTIAL_ID = "nexuslogin"
+        NEXUS_URL = "172.31.47.53:8081"
+        NEXUS_REPOSITORY = "test"
+	NEXUS_REPO_ID    = "test"
+        NEXUS_CREDENTIAL_ID = "nexus_login"
         ARTVERSION = "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}"
 	NEXUS_ARTIFACT = "${env.NEXUS_PROTOCOL}://${env.NEXUS_URL}/repository/${env.NEXUS_REPOSITORY}/com/team/project/tmart/${env.ARTVERSION}/tmart-${env.ARTVERSION}.war"
-	scannerHome = tool 'sonar4.7'
+	scannerHome = tool 'sonar'
 	ecr_repo = '674583976178.dkr.ecr.us-east-2.amazonaws.com/teamimagerepo'
         ecrCreds = 'awscreds'
 	image = ''
@@ -34,14 +25,14 @@ pipeline {
           steps {
             script {
               sh 'mvn test'
-              junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
+             // junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
             }}
 	}
 	stage ('Checkstyle Analysis'){
             steps {
 		script{
                 sh 'mvn checkstyle:checkstyle'
-		recordIssues enabledForFailure: false, tool: checkStyle()
+		// recordIssues enabledForFailure: false, tool: checkStyle()
 	    }}
 	}
         stage('SonarQube Scan') {
@@ -51,10 +42,10 @@ pipeline {
                        return params.SonarQube  }}}
           steps {
 	    script{
-              withSonarQubeEnv('sonar') {
+              withSonarQubeEnv('sonarscanner') {
 	       echo "Stage: SonarQube Scan"
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=jenkins \
-                   -Dsonar.projectName=tjenkins \
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=test \
+                   -Dsonar.projectName=test \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
@@ -64,7 +55,7 @@ pipeline {
 		    }
 		echo "Quality Gate"   
 		timeout(time: 5, unit: 'MINUTES') {
-                       def qualitygate = waitForQualityGate(webhookSecretId: 'sqwebhook')
+                       def qualitygate = waitForQualityGate(webhookSecretId: 'sqhook')
                        if (qualitygate.status != "OK") {
 			   catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                                 sh "exit 1"  }}}
@@ -104,7 +95,7 @@ pipeline {
                         error "*** File: ${artifactPath}, could not be found";
                     }}}}
 	    
-	stage('Docker Image Build') {
+	/*stage('Docker Image Build') {
           steps {
              script {
                 image = docker.build(ecr_repo + ":$BUILD_ID", "./") 
@@ -158,7 +149,7 @@ pipeline {
          post {
           always { cleanWs() }
         }
-	}
+	} */
 }
 	post {
           always { cleanWs() }
