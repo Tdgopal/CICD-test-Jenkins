@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: teamcontainer
-        image: 674583976178.dkr.ecr.us-east-2.amazonaws.com/teamimagerepo:latest
+        image: 339712852090.dkr.ecr.us-east-2.amazonaws.com/ecrrepo:latest
         ports:
         - containerPort: 8080
         imagePullPolicy: Always
