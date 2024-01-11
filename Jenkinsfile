@@ -113,12 +113,8 @@ pipeline {
             sh 'docker builder prune --all -f' } 
        }}	    
 	    
-        /*stage('Deploy to EKS'){
-		 agent { label 'agent1' }
-                 when {
-                   expression {
-                       return params.Deploy   
-                }}
+        stage('Deploy to EKS'){
+		 
             steps {
 		script{
 		 sh 'eksctl get cluster --region us-east-2'
@@ -135,7 +131,7 @@ pipeline {
          post {
           always { cleanWs() }
         } 
-	} */
+	} 
 }
 	post {
           always { cleanWs() }
