@@ -8,7 +8,7 @@ pipeline {
 	NEXUS_REPO_ID    = "test"
         NEXUS_CREDENTIAL_ID = "nexus_login"
         ARTVERSION = "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}"
-	NEXUS_ARTIFACT = "${env.NEXUS_PROTOCOL}://${env.NEXUS_URL}/repository/${env.NEXUS_REPOSITORY}/com/team/project/tmart/${env.ARTVERSION}/tmart-${env.ARTVERSION}.war"
+	//NEXUS_ARTIFACT = "${env.NEXUS_PROTOCOL}://${env.NEXUS_URL}/repository/${env.NEXUS_REPOSITORY}/com/team/project/tmart/${env.ARTVERSION}/tmart-${env.ARTVERSION}.war"
 	scannerHome = tool 'sonar'
 	ecr_repo = '339712852090.dkr.ecr.us-east-2.amazonaws.com/ecrrepo'
         ecrCreds = 'awscreds'
