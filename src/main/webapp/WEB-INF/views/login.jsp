@@ -14,7 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>LOGIN</title>
+    <title>USER LOGIN</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
@@ -55,8 +55,8 @@
                             </ul>
                             <div class="navbar-collapse navbar-right collapse">
 	                            <ul class="nav navbar-nav">
-	                        	 <li><a href="${contextPath}/login">LOGIN</a></li>
-	                        	 <li><a href="${contextPath}/registration">SIGN UP</a></li>
+	                        	 <li><a href="${contextPath}/login">USER LOGIN</a></li>
+	                        	 <li><a href="${contextPath}/registration">Register Now</a></li>
 	                       	 	</ul>
                             </div>
                             
