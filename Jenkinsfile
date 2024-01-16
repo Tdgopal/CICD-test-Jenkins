@@ -123,10 +123,7 @@ pipeline {
 		 kubectl get deployments  
                  sleep 10
                  kubectl get svc
-                 '''   }}
-         post {
-          always { cleanWs() }
-        } 
+                 '''   }} 
 	} 
 }
 	post {
