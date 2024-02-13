@@ -1,1 +1,11 @@
-
+kind: Service
+apiVersion: v1
+metadata:
+  name: mysec
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: test
+  type: LoadBalancer
